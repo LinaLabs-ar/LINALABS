@@ -676,35 +676,8 @@
     <script src="tests/unit/mouse-follower.js"></script>
     <script>
         // MOUSE FOLLOWER
-        class MouseFollowerUI extends MouseFollower {
-            constructor(element) {
-                super(element);
-                this.element.classList.add('active');
-            }
-
-            updatePosition(event) {
-                if (event) {
-                    this.targetX = event.clientX;
-                    this.targetY = event.clientY;
-                }
-
-                this.x += (this.targetX - this.x) * this.easing;
-                this.y += (this.targetY - this.y) * this.easing;
-
-                // Apply custom positioning with offset
-                this.element.style.left = (this.x - 20) + 'px';
-                this.element.style.top = (this.y - 20) + 'px';
-            }
-        }
-
-        const mouseFollower = new MouseFollowerUI(document.querySelector('.mouse-follower'));
-
-        document.addEventListener('mousemove', (e) => {
-            mouseFollower.updatePosition(e);
-            requestAnimationFrame(() => {
-                mouseFollower.render();
-            });
-        });
+        const follower = new MouseFollower(document.querySelector('.mouse-follower'));
+        follower.start();
 
         // PARALLAX BACKGROUND PARTICLES
         const parallaxBg = document.getElementById('parallax-bg');
