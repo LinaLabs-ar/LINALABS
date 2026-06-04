@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lina Labs — Laboratorio Digital Multidisciplinario. Diseño, narrativa y tecnología lumínica para proyectos memorables." />
+  <title>Lina Labs</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/src/style.css" />
+
+  <!-- Metricool tracking script -->
+  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"f60d71ca046d95012bc3844aac96490a"})});</script>
+</head>
+<body>
+
+  <!-- ══════════ LOADER ══════════ -->
+  <div id="loader" role="progressbar" aria-label="Cargando">
+    <div class="loader-logo-wrap">
+      <img src="/assets/logo-linalabs.png" class="loader-logo-img" alt="Lina Labs" />
+    </div>
+  </div>
+
+  <!-- ══════════ NAVBAR ══════════ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo" aria-label="Lina Labs — inicio">
+      <img src="/assets/logo-linalabs.png" alt="Lina Labs" class="nav-logo-img" width="36" height="36" />
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#about"     class="nav-link" data-i18n="nav.about">Estudio</a></li>
+      <li><a href="#services"  class="nav-link" data-i18n="nav.services">Servicios</a></li>
+      <li><a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Nuestro trabajo</a></li>
+      <li><a href="#media"     class="nav-link" data-i18n="nav.media">Media</a></li>
+      <li><a href="#contact"   class="nav-link" data-i18n="nav.contact">Contacto</a></li>
+    </ul>
+    <div class="nav-right">
+      <button id="lang-toggle" aria-label="Switch language / Cambiar idioma" title="EN / ES">
+        <span class="lang-display">ES</span>
+      </button>
+    <button id="theme-toggle" aria-label="Cambiar modo claro/oscuro" title="Cambiar tema">
+      <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    </div><!-- /.nav-right -->
+  </nav>
+
+  <!-- SVG filter: extracts only the border/outline of the logo PNG -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true"
+       style="position:absolute;overflow:hidden">
+    <defs>
+      <filter id="logo-border-filter" x="-20%" y="-20%" width="140%" height="140%">
+        <!-- Dilate the alpha to get a slightly larger shape -->
+        <feMorphology operator="dilate" radius="2.5" in="SourceAlpha" result="dilated"/>
+        <!-- Subtract original alpha → only the border ring remains -->
+        <feComposite in="dilated" in2="SourceAlpha" operator="out" result="edge"/>
+        <!-- Fill edge white -->
+        <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
+        <feComposite in="white" in2="edge" operator="in" result="outline"/>
+        <!-- Soft glow layer -->
+        <feGaussianBlur in="outline" stdDeviation="4" result="glow"/>
+        <!-- RGB aberration on glow: red left, blue right -->
+        <feOffset in="glow" dx="-6" dy="0" result="glowR"/>
+        <feFlood flood-color="#ff0000" flood-opacity="0.55" result="red"/>
+        <feComposite in="red" in2="glowR" operator="in" result="rgbR"/>
+        <feOffset in="glow" dx="6" dy="0" result="glowB"/>
+        <feFlood flood-color="#0000ff" flood-opacity="0.55" result="blue"/>
+        <feComposite in="blue" in2="glowB" operator="in" result="rgbB"/>
+        <!-- Stack: red glow → blue glow → white glow → crisp outline -->
+        <feMerge>
+          <feMergeNode in="rgbR"/>
+          <feMergeNode in="rgbB"/>
+          <feMergeNode in="glow"/>
+          <feMergeNode in="outline"/>
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ══════════ HERO ══════════ -->
+  <section id="hero" class="hero">
+    <!-- Sticky viewport — everything inside sticks during the 220vh scroll -->
+    <div class="hero-sticky">
+
+      <!-- WebGL canvas: Three.js renders logo + chromatic aberration shader -->
+      <canvas id="hero-gl-canvas" aria-hidden="true"></canvas>
+
+      <!-- 2D offscreen canvas: draws placeholder / PNG sequence frames -->
+      <canvas id="logo-canvas" aria-hidden="true" style="display:none"></canvas>
+
+      <!-- Pieces lists — left and right, scroll-driven -->
+      <div class="hero-pieces-list hero-pieces-list--left" aria-hidden="true">
+        <div class="pieces-inner" id="pieces-inner-left"></div>
+      </div>
+      <div class="hero-pieces-list hero-pieces-list--right" aria-hidden="true">
+        <div class="pieces-inner" id="pieces-inner-right"></div>
+      </div>
+
+      <!-- Logo outline — beats while idle, disappears on first scroll -->
+      <div class="hero-logo-outline" id="hero-logo-outline" aria-hidden="true">
+        <img src="/assets/logo-linalabs.png" alt="" />
+      </div>
+
+      <!-- Scan lines — 4 lines, different widths and speeds -->
+      <div class="hero-scan-line"   aria-hidden="true"></div>
+      <div class="hero-scan-line-2" aria-hidden="true"></div>
+      <div class="hero-scan-line-3" aria-hidden="true"></div>
+      <div class="hero-scan-line-4" aria-hidden="true"></div>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll-hint hint-waiting" aria-hidden="true">
+        <span class="scroll-hint-dot"></span>
+        <span class="scroll-hint-line"></span>
+        <span class="scroll-hint-text">scroll</span>
+      </div>
+
+      <!-- Wordmark — appears when logo settles at end of animation -->
+      <div class="hero-wordmark" aria-label="Lina Labs">
+        <div class="wordmark-line" data-text="LINA" aria-hidden="true">LINA</div>
+        <div class="wordmark-line" data-text="LABS" aria-hidden="true">LABS</div>
+      </div>
+
+      <!-- Tagline — visible on page load at bottom of viewport -->
+      <div class="hero-tagline" aria-label="El brillo de una idea, es la luz que proyecta">
+        <span class="tagline-line tagline-black"  data-text="El brillo de una idea" data-i18n-tagline="hero.tagline1">El brillo de una idea</span>
+        <span class="tagline-line tagline-regular" data-text="es la luz que proyecta" data-i18n-tagline="hero.tagline2">es la luz que proyecta</span>
+      </div>
+
+    </div><!-- /.hero-sticky -->
+  </section>
+
+  <!-- ══════════ ABOUT ══════════ -->
+  <section id="about" class="section-about">
+    <div class="container">
+      <div class="about-grid">
+
+        <!-- Left: label + copy -->
+        <div class="about-text-col">
+          <div class="about-label">
+            <span data-i18n="about.label">Estudio</span>
+          </div>
+          <div class="about-body">
+            <p class="about-text" data-i18n-html="about.text1">Lina Labs es un <em class="highlight-word aberr-text" data-text="laboratorio creativo">laboratorio creativo</em> multidisciplinario que fusiona diseño, narrativa y tecnología lumínica para <em class="highlight-word">dar vida</em> a proyectos memorables.</p>
+            <p class="about-text about-text--secondary" data-i18n-html="about.text2">Especializados en diseño gráfico, producción audiovisual, desarrollo de juegos, diseño de indumentaria y experiencias inmersivas, transformamos ideas en realidades tangibles a través de un enfoque innovador centrado en <em class="highlight-word aberr-text" data-text="la luz">la luz</em> como elemento narrativo y estético.</p>
+          </div>
+        </div>
+
+        <!-- Right: anchor for traveling logo (empty — logo-traveler positions itself here) -->
+        <div class="about-logo-col" aria-hidden="true"></div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ MANIFESTO ══════════ -->
+  <section id="manifesto" class="section-manifesto">
+    <div class="container">
+      <div class="manifesto-grid">
+
+        <!-- Left: headline + tagline + body -->
+        <div class="manifesto-text-col">
+          <h2 class="manifesto-headline aberr-text" data-text="NO DEJES DE COMUNICAR" data-i18n-html="manifesto.headline">NO DEJES DE<br>COMUNICAR</h2>
+          <p class="manifesto-sub" data-i18n="manifesto.sub">Ilumina a tus clientes con tu marca</p>
+          <p class="manifesto-body" data-i18n="manifesto.body">Debatimos los proyectos, sumamos ideas, nos involucramos con la empresa y sus necesidades como socios estratégicos.</p>
+        </div>
+
+        <!-- Right: anchor for traveling logo -->
+        <div class="manifesto-logo-col" aria-hidden="true"></div>
+
+      </div>
+    </div>
+    <div class="structure-lines" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+  </section>
+
+  <!-- ══════════ SERVICES ══════════ -->
+  <section id="services" class="section-services">
+    <div class="container">
+      <div class="services-header">
+        <div class="services-header-text">
+          <span class="section-label" data-i18n="services.label">Servicios</span>
+          <h3 class="services-headline" data-i18n-html="services.headline">Tercerizá tus necesidades de comunicación con un <strong class="aberr-text" data-text="Soporte Integral Mensual">Soporte Integral Mensual</strong> para Empresas</h3>
+        </div>
+        <!-- Anchor for traveling logo — logo arrives here from Manifesto -->
+        <div class="services-logo-anchor" aria-hidden="true"></div>
+      </div>
+      <div class="services-grid">
+
+        <article class="service-card" data-index="01" data-accent="r">
+          <div class="sc-num">01</div>
+          <h4 class="sc-title" data-i18n="services.c1.title">Agile Management</h4>
+          <p class="sc-desc" data-i18n="services.c1.desc">Asumimos la dirección operativa de su comunicación. Prendemos a los creativos necesarios para llevar a cabo la cobertura de su empresa. Nos integramos externamente como su equipo experto para ejecutar roadmaps estratégicos y optimizar sus procesos, devolviéndole el foco a su gerencia.</p>
+        </article>
+
+        <article class="service-card" data-index="02" data-accent="g">
+          <div class="sc-num">02</div>
+          <h4 class="sc-title" data-i18n="services.c2.title">Tangible Innovation</h4>
+          <p class="sc-desc" data-i18n="services.c2.desc">Explotamos IA, impresión 3D, hacemos merchandising, brindamos coberturas de eventos, diseñamos stands para llevar ideas al mundo físico. Se comunica mejor con activos táctiles de calidad prémium que aseguran su presencia constante.</p>
+        </article>
+
+        <article class="service-card" data-index="03" data-accent="b">
+          <div class="sc-num">03</div>
+          <h4 class="sc-title" data-i18n="services.c3.title">Brand Identity</h4>
+          <p class="sc-desc" data-i18n="services.c3.desc">El branding es un activo financiero que le da robustez a su empresa. Construimos marcas sólidas, blindamos su reputación en el mercado y alineamos su comunicación corporativa externa con su cultura interna.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PORTFOLIO / NUESTRO TRABAJO — PDF Flip-Book ══════════ -->
+  <section id="portfolio" class="section-portfolio">
+
+    <div class="pdf-viewer-wrapper">
+
+      <!-- Header sits inside the viewer container -->
+      <div class="portfolio-header">
+        <span class="section-label" data-i18n="portfolio.label">Nuestro trabajo</span>
+      </div>
+
+      <!-- PDF selector tabs -->
+      <div class="pdf-tabs" role="tablist">
+        <button class="pdf-tab active" role="tab" data-pdf="portfolio" aria-selected="true" data-i18n="portfolio.tab1">Portfolio</button>
+        <button class="pdf-tab" role="tab" data-pdf="propuesta" aria-selected="false" data-i18n="portfolio.tab2">Propuesta</button>
+      </div>
+
+      <!-- Flip-book container -->
+      <div id="flip-book-container" aria-label="Visor de portfolio en modo libro">
+        <div id="flip-book">
+          <!-- Pages are injected by PDFViewer.js -->
+          <div class="pdf-loading">
+            <div class="pdf-loading-ring"></div>
+            <p>Cargando portfolio&hellip;</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flip-book controls -->
+      <div class="pdf-controls" role="group" aria-label="Controles del libro">
+        <button class="pdf-btn" id="pdf-prev" aria-label="Página anterior">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="pdf-page-info">
+          <span id="pdf-current">1</span> / <span id="pdf-total">—</span>
+        </span>
+        <button class="pdf-btn" id="pdf-next" aria-label="Página siguiente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ MEDIA — Reel + Instagram ══════════ -->
+  <section id="media" class="section-media">
+    <div class="container">
+      <span class="section-label" data-i18n="media.label">Media</span>
+    </div>
+
+    <div class="media-dual">
+      <!-- Video reel -->
+      <div class="media-reel-wrap">
+        <div class="reel-label">
+          <span>Reel</span>
+          <span class="reel-year">2025</span>
+        </div>
+        <div class="reel-video-container">
+          <video
+            id="reel-video"
+            src="/assets/reel.mp4"
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            aria-label="Reel publicitario Lina Labs"
+          ></video>
+          <button class="reel-play-btn" id="reel-play" aria-label="Reproducir reel">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Instagram grid -->
+      <div class="media-instagram-wrap">
+        <div class="ig-header">
+          <a
+            href="https://www.instagram.com/linalabs.ar"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="ig-handle"
+            aria-label="Ver @linalabs en Instagram"
+          >
+            <svg class="ig-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+            @linalabs
+          </a>
+          <span class="ig-verified" title="Cuenta verificada">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- Independent scroll grid -->
+        <div class="ig-grid-container" id="ig-grid-container" role="region" aria-label="Feed de Instagram de Lina Labs">
+          <div class="ig-grid" id="ig-grid">
+            <!-- 12 posts injected by MediaSection.js (Instagram API or placeholders) -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CAPABILITIES ══════════ -->
+  <section id="capabilities" class="section-capabilities">
+    <div class="container">
+      <span class="section-label" data-i18n="capabilities.label">Capacidades</span>
+    </div>
+
+    <!-- Ticker marquee — Lina Labs brand icons 27–41 -->
+    <div class="ticker-wrap" aria-hidden="true">
+      <div class="ticker-track ticker-icons">
+        <span class="ticker-set">
+          <img src="/assets/icons/icon-27.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-28.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-29.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-30.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-31.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-32.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-33.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-34.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-35.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-36.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-37.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-38.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-39.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-40.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-41.png" class="ticker-logo" alt="">
+        </span>
+        <span class="ticker-set" aria-hidden="true">
+          <img src="/assets/icons/icon-27.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-28.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-29.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-30.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-31.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-32.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-33.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-34.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-35.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-36.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-37.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-38.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-39.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-40.png" class="ticker-logo" alt="">
+          <img src="/assets/icons/icon-41.png" class="ticker-logo" alt="">
+        </span>
+      </div>
+    </div>
+
+    <!-- Dense Montserrat Black block — all pieces, tightly packed, full RGB aberration -->
+    <div
+      class="capabilities-dense"
+      aria-label="Todo lo que podemos hacer para vos"
+      data-i18n-aria="capabilities.aria"
+      data-i18n="capabilities.dense"
+    >
+      PIEZAS DIGITALES · PIEZAS IMPRESAS · MOTION GRAPHICS · PRESENTACIONES · BRANDBOOK · SISTEMA DE IDENTIDAD · CATÁLOGOS · LIBROS · INFOGRAFÍAS · ESQUEMAS Y DIBUJOS · BROCHURE · FOLLETOS · CORREOS · MARKETING · CARTELERÍA · INTERNA · LANZAMIENTOS · CAMPAÑAS · COMMUNITY MANAGER · PLANIFICACIÓN · HOJA DE RUTA · DISEÑO DE INDUMENTARIA · PINTURA · DISEÑO 3D Y RENDERS · ILUSTRACIONES · LIBROS INFANTILES · FOTOGRAFÍA Y VIDEO · ANÁLISIS DE COMPETENCIA VISUAL · CREATIVIDAD · MAILINGS PROMOCIONALES · REPORTES · REVISTAS · ANUARIOS · ETIQUETAS · MODELADOS DE PRODUCTOS · PROTOTIPOS VISUALES · 360° · MERCHANDISING EXCLUSIVO · ACCESORIOS PROMOCIONALES · ESTRATEGIA DE CONTENIDOS · KITS DE REDES SOCIALES · POSTS INFORMATIVOS · RETRATOS CORPORATIVOS · ILUSTRACIONES CONCEPTUALES · PERSONAJES EXCLUSIVOS · EXPLAINER VIDEOS · TUTORIALES ANIMADOS · TRANSICIONES PARA VIDEO · SLIDESHOWS DINÁMICOS · SELLOS CORPORATIVOS · INVITACIONES DIGITALES · CERTIFICADOS · DIPLOMAS
+    </div>
+  </section>
+
+  <!-- ══════════ CONTACT ══════════ -->
+  <section id="contact" class="section-contact">
+
+    <!-- Full-width header: label + headline -->
+    <div class="contact-header">
+      <div class="container">
+        <span class="section-label" data-i18n="contact.label">Contacto</span>
+        <h2 class="contact-headline aberr-text" data-text="Trabajemos juntos" data-i18n-html="contact.headline">Trabajemos<br>juntos</h2>
+      </div>
+    </div>
+
+    <!-- 2-column body: form left | social right -->
+    <div class="contact-body">
+      <div class="container">
+        <div class="contact-body-grid">
+
+          <!-- Form — left column -->
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="cf-row">
+              <input type="email" name="email" class="cf-input" placeholder="Tu email" data-i18n-placeholder="contact.email.ph" required>
+            </div>
+            <div class="cf-row">
+              <input type="text" name="subject" class="cf-input" placeholder="Asunto" data-i18n-placeholder="contact.subj.ph" required>
+            </div>
+            <div class="cf-row">
+              <input type="tel" name="phone" class="cf-input" placeholder="Teléfono" data-i18n-placeholder="contact.phone.ph">
+            </div>
+            <div class="cf-row">
+              <textarea name="message" class="cf-input cf-textarea" placeholder="Tu mensaje" data-i18n-placeholder="contact.msg.ph" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="cf-submit" data-i18n="contact.submit">Enviar mensaje</button>
+          </form>
+
+          <!-- Social links — right column -->
+          <div class="contact-social">
+            <a href="mailto:hello@linalabs.ar" class="social-link" aria-label="Email">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <polyline points="2,4 12,13 22,4"/>
+              </svg>
+              <span>hello@linalabs.ar</span>
+            </a>
+            <a href="https://wa.me/5491140281901" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              <span>WhatsApp</span>
+            </a>
+            <a href="https://www.instagram.com/linalabs.ar" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+              <span>Instagram</span>
+            </a>
+            <a href="https://www.linkedin.com/company/linalabs" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://www.youtube.com/@LinaLabsAr" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+              <span>YouTube</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Logo centered below the body -->
+    <div class="contact-logo-wrap">
+      <img
+        src="/assets/logo-linalabs.png"
+        class="lina-logo contact-logo"
+        id="contact-logo"
+        alt="Lina Labs"
+      />
+    </div>
+
+  </section>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#hero" class="footer-logo" aria-label="Volver al inicio">
+          <img src="/assets/logo-linalabs.png" alt="Lina Labs" class="footer-logo-img" width="32" height="32" />
+        </a>
+        <p class="footer-copy">
+          <span data-i18n="footer.copy">COPYRIGHT © 2025 LINA LABS. TODOS LOS DERECHOS RESERVADOS.</span>
+        </p>
+        <p class="footer-tagline" data-i18n="footer.tagline">Deseamos que encuentres un propósito y un camino.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════ STICKY WIDGET — Equilateral Triangle ══════════ -->
+  <div id="sticky-widget" role="complementary" aria-label="Contacto rápido">
+
+    <!-- TOP CENTER: Lina Labs logo -->
+    <a href="#hero" class="sw-btn sw-logo" aria-label="Inicio — Lina Labs">
+      <img src="/assets/logo-linalabs.png" alt="" aria-hidden="true" width="22" height="22" class="sw-logo-img" />
+    </a>
+
+    <!-- BOTTOM LEFT: WhatsApp -->
+    <a href="https://wa.me/5491140281901" target="_blank" rel="noopener noreferrer"
+       class="sw-btn sw-wsp" aria-label="WhatsApp">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+    </a>
+
+    <!-- BOTTOM RIGHT: Instagram -->
+    <a href="https://www.instagram.com/linalabs.ar" target="_blank" rel="noopener noreferrer"
+       class="sw-btn sw-ig" aria-label="Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="5"/>
+        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+
+  </div>
+
+  <!-- Traveling logo — single element, position managed by TravelingLogo.js -->
+  <div id="logo-traveler" aria-hidden="true">
+    <img src="/assets/logo-linalabs.png" alt="" class="traveler-img" />
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
