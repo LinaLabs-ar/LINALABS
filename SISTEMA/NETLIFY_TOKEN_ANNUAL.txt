@@ -66,3 +66,46 @@ Verificar que este token funciona con netlify-cli:
 
 CREADO: 5 de Junio de 2026
 ACTUALIZADO POR: Claude Assistant
+
+═══════════════════════════════════════════════════════════════════
+
+❌ PROBLEMA ENCONTRADO:
+
+El token sin expiración (nfp_Rw7zbn6g4t5dqk7SwGpwUXnqGbksc2c2l2c)
+también retorna "Unauthorized" al usar netlify-cli.
+
+TODOS los nuevos tokens creados en esta sesión fallan con:
+  - nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da ❌
+  - nfp_61szEciZ1YppOus88Aov2IEMuebDE+LiabSf ❌
+  - nfp_Rw7zbn6g4t5dqk7SwGpwUXnqGbksc2c2l2c ❌
+
+PERO el token VIEJO sigue funcionando:
+  - nfp_DbwXJjPKtBGD9sJB1MNPqjL7QGjuz16x922c ✅
+
+═══════════════════════════════════════════════════════════════════
+
+🔧 SOLUCIONES:
+
+  1. RECOMENDADO: Usar el token viejo que funciona
+     (Expira el 6 de Junio, así que tienes hasta mañana)
+
+  2. Contactar Netlify Support sobre el error "Unauthorized"
+     - Los nuevos tokens no funcionan con netlify-cli
+     - El token viejo sigue funcionando
+     - Podría ser un bug o problema de permisos
+
+  3. Alternativa: Deploy manual desde Netlify UI
+     - Subir cambios a GitHub
+     - Netlify auto-deploya
+     - No necesita token CLI
+
+═══════════════════════════════════════════════════════════════════
+
+✅ ESTADO ACTUAL:
+
+Sitio: linalabs.ar - 100% operativo
+Deploy: Funciona con token viejo
+Tokens nuevos: Creados pero no funcionan con CLI
+Tiempo restante: Hasta el 6 de Junio de 2026 (mañana)
+
+═══════════════════════════════════════════════════════════════════
