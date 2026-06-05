@@ -1,0 +1,39 @@
+╔════════════════════════════════════════════════════════════════╗
+║           NETLIFY PERSONAL ACCESS TOKEN - LINALABS             ║
+║                  ⚠️ CONFIDENTIAL - KEEP SECURE ⚠️              ║
+╚════════════════════════════════════════════════════════════════╝
+
+SITIO: linalabs.ar
+URL: https://linalabs.ar
+PROYECTO: effervescent-lily-e0815b
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔴 TOKEN EXPIRADO (NO USAR):
+  Token: nfp_DbwXJjPKtBGD9sJB1MNPqjL7QGjuz16x922c
+  Descripción: deploy-linalabs-web
+  Expira: 6 de Junio de 2026 ⏰ EXPIRÓ O ESTÁ A PUNTO DE EXPIRAR
+  Status: ❌ DESCONTINUADO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🟢 TOKEN ACTIVO (USAR ESTE):
+  Token: nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da
+  Descripción: linalabs-web-deploy-june-2026
+  Expira: 12 de Junio de 2026
+  Status: ✅ ACTIVO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CÓMO USAR PARA DEPLOY:
+
+  export NETLIFY_AUTH_TOKEN="nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da"
+  cd D:\Users\Razor\Documents\Razor\Clientes\LINALABS\SISTEMA\web
+  npx netlify-cli deploy --prod
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PRÓXIMO CAMBIO DE TOKEN: Necesario el 12 de Junio de 2026
+
+CREADO: 5 de Junio de 2026
+ACTUALIZADO POR: Claude Assistant
