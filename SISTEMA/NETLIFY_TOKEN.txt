@@ -7,33 +7,76 @@ SITIO: linalabs.ar
 URL: https://linalabs.ar
 PROYECTO: effervescent-lily-e0815b
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+═══════════════════════════════════════════════════════════════════
 
-🔴 TOKEN EXPIRADO (NO USAR):
+🟡 TOKEN VIEJO (EXPIRANDO MAÑANA - AÚN FUNCIONA):
   Token: nfp_DbwXJjPKtBGD9sJB1MNPqjL7QGjuz16x922c
   Descripción: deploy-linalabs-web
-  Expira: 6 de Junio de 2026 ⏰ EXPIRÓ O ESTÁ A PUNTO DE EXPIRAR
-  Status: ❌ DESCONTINUADO
+  Expira: 6 de Junio de 2026 ⏰ HOY/MAÑANA
+  Status: ⚠️ FUNCIONA PERO A PUNTO DE EXPIRAR
+  ✅ Verificado: Deploy exitoso el 5 de Junio, 14:11 UTC
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+═══════════════════════════════════════════════════════════════════
 
-🟢 TOKEN ACTIVO (USAR ESTE):
-  Token: nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da
+❌ TOKENS NUEVOS (NO FUNCIONAN CON CLI):
+  
+  Token 1: nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da
   Descripción: linalabs-web-deploy-june-2026
   Expira: 12 de Junio de 2026
-  Status: ✅ ACTIVO
+  Status: ❌ "Unauthorized" error con netlify-cli
+  
+  Token 2: nfp_61szEciZ1YppOus88Aov2IEMuebDE+LiabSf
+  Descripción: linalabs-web-deploy-verified-2026
+  Expira: 12 de Junio de 2026
+  Status: ❌ "Unauthorized" error con netlify-cli
+  
+  ℹ️  Los nuevos tokens fueron creados exitosamente en Netlify
+      pero no funcionan con netlify-cli. Probablemente necesiten
+      permisos específicos o configuración adicional.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+═══════════════════════════════════════════════════════════════════
 
-CÓMO USAR PARA DEPLOY:
+✅ SITIO EN VIVO:
+   URL: https://linalabs.ar
+   Status: HTTP 200 OK
+   Último Deploy: 5 de Junio, 14:11 UTC
+   Build Time: 18.2s
 
-  export NETLIFY_AUTH_TOKEN="nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da"
+═══════════════════════════════════════════════════════════════════
+
+CÓMO USAR PARA DEPLOY (ACTUALMENTE FUNCIONA):
+
+  export NETLIFY_AUTH_TOKEN="nfp_DbwXJjPKtBGD9sJB1MNPqjL7QGjuz16x922c"
   cd D:\Users\Razor\Documents\Razor\Clientes\LINALABS\SISTEMA\web
   npx netlify-cli deploy --prod
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+═══════════════════════════════════════════════════════════════════
 
-PRÓXIMO CAMBIO DE TOKEN: Necesario el 12 de Junio de 2026
+⚠️  PRÓXIMAS ACCIONES REQUERIDAS:
 
-CREADO: 5 de Junio de 2026
-ACTUALIZADO POR: Claude Assistant
+  1. URGENTE (antes del 6 de Junio):
+     - El token viejo EXPIRA MAÑANA
+     - Los nuevos tokens no funcionan con CLI
+     - Necesitas investigar por qué los tokens nuevos no funcionan
+     - Posibles soluciones:
+       a) Crear tokens con permisos específicos en dashboard
+       b) Usar otro método de autenticación (OAuth)
+       c) Contactar soporte de Netlify si es un bug
+
+  2. RESPALDO TEMPORAL:
+     - El token viejo funcionará hasta mañana
+     - Puedes hacer deploys hasta las 23:59 del 6 de Junio
+     - Después necesitarás encontrar una solución
+
+═══════════════════════════════════════════════════════════════════
+
+REGISTRO DE CAMBIOS:
+
+  5 de Junio, 2026 - 14:30 UTC
+  - Creados 2 nuevos tokens de respaldo
+  - Verificados: No funcionan con netlify-cli
+  - Sitio: 100% operativo
+  - Deploy: Funciona con token viejo
+
+CREADO POR: Claude Assistant
+ÚLTIMA ACTUALIZACIÓN: 5 de Junio de 2026
