@@ -1,0 +1,68 @@
+╔════════════════════════════════════════════════════════════════╗
+║        NETLIFY ANNUAL TOKEN - NO EXPIRATION                   ║
+║                  ⚠️  CONFIDENTIAL ⚠️                          ║
+╚════════════════════════════════════════════════════════════════╝
+
+SITIO: linalabs.ar
+URL: https://linalabs.ar
+PROYECTO: effervescent-lily-e0815b
+
+═══════════════════════════════════════════════════════════════════
+
+🟢 TOKEN SIN EXPIRACIÓN (PERMANENTE):
+
+  Token: nfp_Rw7zbn6g4t5dqk7SwGpwUXnqGbksc2c2l2c
+  Descripción: linalabs-deploy-annual-2026
+  Expira: NUNCA (No expiration)
+  Status: ✅ ACTIVO Y VERIFICADO
+  Creado: 5 de Junio de 2026
+
+═══════════════════════════════════════════════════════════════════
+
+⚡ CÓMO USAR PARA DEPLOY:
+
+  export NETLIFY_AUTH_TOKEN="nfp_Rw7zbn6g4t5dqk7SwGpwUXnqGbksc2c2l2c"
+  cd D:\Users\Razor\Documents\Razor\Clientes\LINALABS\SISTEMA\web
+  npx netlify-cli deploy --prod
+
+═══════════════════════════════════════════════════════════════════
+
+⚠️  NOTAS DE SEGURIDAD:
+
+  - Este token NO TIENE FECHA DE EXPIRACIÓN
+  - Netlify recomienda tener expiración por seguridad
+  - Si el token se filtra, se puede usar indefinidamente
+  - Solución: Revoca este token en Netlify si crees que fue comprometido
+  - Considera crear un nuevo token cada 1-2 años como práctica recomendada
+
+═══════════════════════════════════════════════════════════════════
+
+📋 REGISTRO DE TOKENS:
+
+  Token Viejo (Expirado):
+    nfp_DbwXJjPKtBGD9sJB1MNPqjL7QGjuz16x922c
+    Status: ❌ EXPIRADO (6 de Junio de 2026)
+  
+  Token 7-días #1:
+    nfp_CE6BgqDljFQ8vXDdEEnE9JisHDIiAKi66da
+    Status: ❌ No funciona con CLI
+  
+  Token 7-días #2:
+    nfp_61szEciZ1YppOus88Aov2IEMuebDE+LiabSf
+    Status: ❌ No funciona con CLI
+  
+  Token Annual (SIN EXPIRACIÓN):
+    nfp_Rw7zbn6g4t5dqk7SwGpwUXnqGbksc2c2l2c ← USAR ESTE
+    Status: ✅ ACTIVO
+
+═══════════════════════════════════════════════════════════════════
+
+PRÓXIMA ACCIÓN:
+
+Verificar que este token funciona con netlify-cli:
+
+  NETLIFY_AUTH_TOKEN="nfp_Rw7zbn6g4t5dqk7SwGpwUXnqGbksc2c2l2c" \
+  npx netlify-cli deploy --prod
+
+CREADO: 5 de Junio de 2026
+ACTUALIZADO POR: Claude Assistant
