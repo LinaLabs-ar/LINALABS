@@ -1,0 +1,60 @@
+╔════════════════════════════════════════════════════════════════╗
+║         CÓMO CREAR UN TOKEN ANUAL EN NETLIFY                  ║
+║              (Personal Access Token - 365 días)               ║
+╚════════════════════════════════════════════════════════════════╝
+
+PASO 1: Ir al dashboard de Netlify
+  URL: https://app.netlify.com/user/applications#personal-access-tokens
+
+PASO 2: Hacer click en "New access token"
+  Botón azul abajo de la lista de tokens
+
+PASO 3: Llenar la descripción
+  Ej: "linalabs-web-deploy-annual-2026"
+  Ej: "Deploy token for linalabs.ar - yearly"
+
+PASO 4: ⭐ IMPORTANTE - CONFIGURAR EXPIRACIÓN A 1 AÑO
+  - Ver el dropdown donde dice "7 days"
+  - Hacer click en el dropdown
+  - Seleccionar la opción de MAYOR duración disponible:
+    * "30 days"
+    * "90 days" 
+    * "365 days" ← ESTA ES LA QUE QUEREMOS
+    * "Never" (si está disponible)
+  
+PASO 5: Hacer click en "Generate token"
+
+PASO 6: COPIAR EL TOKEN INMEDIATAMENTE
+  ⚠️  Solo lo verás UNA VEZ después de generarlo
+  ⚠️  Guardalo en lugar seguro
+
+PASO 7: Hacer click en "Done"
+
+═══════════════════════════════════════════════════════════════════
+
+⚡ QUICK COMMAND - Una vez tengas el token:
+
+export NETLIFY_AUTH_TOKEN="nfp_AQUI_VA_TU_TOKEN"
+cd D:\Users\Razor\Documents\Razor\Clientes\LINALABS\SISTEMA\web
+npx netlify-cli deploy --prod
+
+═══════════════════════════════════════════════════════════════════
+
+❓ SI NO VES "365 days" EN EL DROPDOWN:
+  - Selecciona "90 days" como alternativa
+  - Crea otro token a los 3 meses
+  - O contacta Netlify Support para tokens más largos
+
+═══════════════════════════════════════════════════════════════════
+
+TOKENS DISPONIBLES EN NETLIFY:
+  • 7 days    (default)
+  • 30 days
+  • 90 days
+  • 365 days  ← QUEREMOS ESTE
+  • Never     (si está disponible - máxima seguridad)
+
+═══════════════════════════════════════════════════════════════════
+
+DOCUMENTO CREADO: 5 de Junio de 2026
+INSTRUCCIONES PARA: Mario Andrés Barbieri / LinaLabs
