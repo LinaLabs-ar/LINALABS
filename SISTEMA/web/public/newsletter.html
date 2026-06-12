@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
+  <title>Lina Labs — Tu comunicación puede valer más</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&display=swap" rel="stylesheet">
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
+  <style>
+    body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+    table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
+    img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none;}
+    body{margin:0!important;padding:0!important;width:100%!important;}
+    a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;}
+    body{background-color:#F0F0EE;font-family:'Montserrat',Arial,Helvetica,sans-serif;}
+
+    /* ════════════════════════════════
+       LOGO — float pulse
+    ════════════════════════════════ */
+    @keyframes logo-float {
+      0%,100% { transform:translateY(0px) scale(1);   }
+      50%     { transform:translateY(-4px) scale(1.04); }
+    }
+    .logo-img { animation:logo-float 3.5s ease-in-out infinite; display:block; }
+
+    /* ════════════════════════════════
+       ABERRACIÓN CROMÁTICA — R/G/B puros
+       Basado en ChromaticAberration.js del sitio:
+       · R y B se abren en abanico desde la dirección principal
+       · G lleva +10px de bias hacia abajo para ser visible
+       · TODOS con rgba(x,x,x,1) — opacidad 1, sin mezclas de canal
+       · Dirección rota lentamente (simula scroll-driven del sitio)
+    ════════════════════════════════ */
+    @keyframes aberr-rotate {
+      /*  dir=0°: R derecha+arriba, G abajo, B derecha+abajo  */
+      0%   { text-shadow:
+               8px -3px 4px rgba(255,0,0,1),
+               2px 10px 3px rgba(0,255,0,1),
+               8px  3px 4px rgba(0,0,255,1); }
+      /*  dir=90°: R abajo+derecha, G izquierda, B abajo+izquierda  */
+      25%  { text-shadow:
+               3px  8px 4px rgba(255,0,0,1),
+              -8px  2px 3px rgba(0,255,0,1),
+              -3px  8px 4px rgba(0,0,255,1); }
+      /*  dir=180°: R izquierda+abajo, G arriba, B izquierda+arriba  */
+      50%  { text-shadow:
+              -8px  3px 4px rgba(255,0,0,1),
+              -2px 10px 3px rgba(0,255,0,1),
+              -8px -3px 4px rgba(0,0,255,1); }
+      /*  dir=270°: R arriba+izquierda, G derecha, B arriba+derecha  */
+      75%  { text-shadow:
+              -3px -8px 4px rgba(255,0,0,1),
+               8px 10px 3px rgba(0,255,0,1),
+               3px -8px 4px rgba(0,0,255,1); }
+      100% { text-shadow:
+               8px -3px 4px rgba(255,0,0,1),
+               2px 10px 3px rgba(0,255,0,1),
+               8px  3px 4px rgba(0,0,255,1); }
+    }
+
+    /* Versión para textos grandes — offsets más generosos */
+    @keyframes aberr-big {
+      0%   { text-shadow:
+               10px -4px 5px rgba(255,0,0,1),
+               2px  12px 4px rgba(0,255,0,1),
+               10px  4px 5px rgba(0,0,255,1); }
+      25%  { text-shadow:
+               4px  10px 5px rgba(255,0,0,1),
+              -10px  2px 4px rgba(0,255,0,1),
+              -4px  10px 5px rgba(0,0,255,1); }
+      50%  { text-shadow:
+              -10px  4px 5px rgba(255,0,0,1),
+              -2px  12px 4px rgba(0,255,0,1),
+              -10px -4px 5px rgba(0,0,255,1); }
+      75%  { text-shadow:
+              -4px -10px 5px rgba(255,0,0,1),
+               10px 12px 4px rgba(0,255,0,1),
+               4px -10px 5px rgba(0,0,255,1); }
+      100% { text-shadow:
+               10px -4px 5px rgba(255,0,0,1),
+               2px  12px 4px rgba(0,255,0,1),
+               10px  4px 5px rgba(0,0,255,1); }
+    }
+
+    .aberr     { animation:aberr-rotate 8s ease-in-out infinite; }
+    .aberr-big { animation:aberr-big    10s ease-in-out infinite; }
+
+    /* ════════════════════════════════
+       PORTFOLIO SLIDESHOW — 8 imágenes
+       Basado en: pags 3,4,20,27,36,43,51,72
+       8 imgs × 3s = 24s ciclo
+    ════════════════════════════════ */
+    .pf-wrap  { position:relative; width:100%; height:400px; overflow:hidden; background:#111; display:block; }
+    .pf-frame { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; }
+
+    @keyframes pf1 { 0%,12.5%{opacity:1} 15%,100%{opacity:0} }
+    @keyframes pf2 { 0%,12.4%{opacity:0} 12.5%,25%{opacity:1} 27.5%,100%{opacity:0} }
+    @keyframes pf3 { 0%,24.9%{opacity:0} 25%,37.5%{opacity:1} 40%,100%{opacity:0} }
+    @keyframes pf4 { 0%,37.4%{opacity:0} 37.5%,50%{opacity:1} 52.5%,100%{opacity:0} }
+    @keyframes pf5 { 0%,49.9%{opacity:0} 50%,62.5%{opacity:1} 65%,100%{opacity:0} }
+    @keyframes pf6 { 0%,62.4%{opacity:0} 62.5%,75%{opacity:1} 77.5%,100%{opacity:0} }
+    @keyframes pf7 { 0%,74.9%{opacity:0} 75%,87.5%{opacity:1} 90%,100%{opacity:0} }
+    @keyframes pf8 { 0%,87.4%{opacity:0} 87.5%,100%{opacity:1} }
+
+    .pf1{animation:pf1 24s ease-in-out infinite;}
+    .pf2{animation:pf2 24s ease-in-out infinite;}
+    .pf3{animation:pf3 24s ease-in-out infinite;}
+    .pf4{animation:pf4 24s ease-in-out infinite;}
+    .pf5{animation:pf5 24s ease-in-out infinite;}
+    .pf6{animation:pf6 24s ease-in-out infinite;}
+    .pf7{animation:pf7 24s ease-in-out infinite;}
+    .pf8{animation:pf8 24s ease-in-out infinite;}
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media only screen and (max-width:600px){
+      .email-wrap{width:100%!important;}
+      .h-big{font-size:32px!important;letter-spacing:-0.5px!important;}
+      .two-col-l,.two-col-r{display:block!important;width:100%!important;}
+      .two-col-r{border-left:none!important;padding-top:20px!important;}
+      .hide-mob{display:none!important;}
+      .pad-s{padding:28px 20px!important;}
+      .pf-wrap{height:240px!important;}
+    }
+  </style>
+</head>
+
+<body style="margin:0;padding:0;background-color:#F0F0EE;font-family:'Montserrat',Arial,Helvetica,sans-serif;">
+
+  <div style="display:none;font-size:1px;color:#F0F0EE;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+    Cada punto de contacto con tus clientes comunica algo. ¿El tuyo está haciendo bien su trabajo?
+  </div>
+
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#F0F0EE;">
+  <tr><td align="center" style="padding:20px 10px;">
+  <table class="email-wrap" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;width:100%;">
+
+
+    <!-- ════════════════════════════════
+         HEADER — logo real + wordmark con aberración
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#FFFFFF;padding:18px 32px;border-bottom:1px solid rgba(0,0,0,0.07);">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <!-- Logo real de Lina Labs — con animación CSS float -->
+            <td style="vertical-align:middle;width:42px;">
+              <img class="logo-img"
+                   src="https://linalabs.ar/assets/logo-linalabs.png"
+                   width="32" height="32" alt="Lina Labs"
+                   style="display:block;width:32px;height:32px;object-fit:contain;animation:logo-float 3.5s ease-in-out infinite;">
+            </td>
+            <!-- Wordmark con aberración animada -->
+            <td style="vertical-align:middle;padding-left:10px;">
+              <a href="https://linalabs.ar" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+                <span class="aberr" style="font-family:'Montserrat',Arial,sans-serif;font-size:17px;font-weight:900;letter-spacing:-0.3px;color:#0A0A0A;text-shadow:3px -1px 2px rgba(255,0,0,1), 1px 4px 2px rgba(0,255,0,1), 3px 1px 2px rgba(0,0,255,1);">
+                  LINA LABS
+                </span>
+              </a>
+            </td>
+            <td align="right" style="vertical-align:middle;" class="hide-mob">
+              <a href="https://linalabs.ar" target="_blank" rel="noopener noreferrer"
+                 style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#AAAAAA;text-decoration:none;">
+                linalabs.ar
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+
+    <!-- ════════════════════════════════
+         HOOK
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#FFFFFF;padding:52px 36px 44px;" class="pad-s">
+
+        <h1 class="h-big aberr-big" style="font-family:'Montserrat',Arial,sans-serif;font-size:46px;font-weight:900;line-height:1.05;letter-spacing:-1.2px;color:#0A0A0A;margin:0 0 20px 0;text-shadow:10px -4px 5px rgba(255,0,0,1), 2px 12px 4px rgba(0,255,0,1), 10px 4px 5px rgba(0,0,255,1);">
+          Tu empresa comunica<br>todos los días.<br>
+          <span style="font-weight:300;color:#555555;text-shadow:none;">¿Lo hace bien?</span>
+        </h1>
+
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:15px;font-weight:400;color:#555555;line-height:1.8;margin:0 0 14px 0;max-width:460px;">
+          Cada punto de contacto con tus clientes —tu web, tu propuesta comercial, tu presencia en eventos, tus redes— comunica algo sobre vos. Si ese mensaje no es claro, consistente y bien diseñado, <strong style="color:#0A0A0A;">estás perdiendo credibilidad en silencio.</strong>
+        </p>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:15px;font-weight:400;color:#555555;line-height:1.8;margin:0 0 36px 0;max-width:460px;">
+          La buena noticia: no necesitás armar un equipo creativo interno para resolverlo.
+        </p>
+
+        <a href="https://linalabs.ar#contact" target="_blank" rel="noopener noreferrer"
+           style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#FFFFFF;text-decoration:none;display:inline-block;background-color:#0A0A0A;padding:15px 34px;">
+          Quiero saber más
+        </a>
+      </td>
+    </tr>
+
+    <!-- FRANJA RGB -->
+    <tr>
+      <td style="height:6px;background:linear-gradient(90deg,#FF0000 0%,#00FF00 50%,#0000FF 100%);padding:0;font-size:0;line-height:0;">&nbsp;</td>
+    </tr>
+
+
+    <!-- ════════════════════════════════
+         BARRA DE VALOR — sin números inventados
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#F7F7F5;border-bottom:1px solid rgba(0,0,0,0.07);">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td align="center" style="padding:18px 8px;border-right:1px solid rgba(0,0,0,0.07);width:33%;">
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:700;color:#0A0A0A;line-height:1.35;">Sin equipo<br>interno</div>
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:8px;font-weight:600;letter-spacing:2px;color:#BBBBBB;text-transform:uppercase;margin-top:4px;">Sin costo fijo</div>
+            </td>
+            <td align="center" style="padding:18px 8px;border-right:1px solid rgba(0,0,0,0.07);width:33%;">
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:700;color:#0A0A0A;line-height:1.35;">15+ disciplinas<br>creativas</div>
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:8px;font-weight:600;letter-spacing:2px;color:#BBBBBB;text-transform:uppercase;margin-top:4px;">Un solo equipo</div>
+            </td>
+            <td align="center" style="padding:18px 8px;width:33%;">
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:700;color:#0A0A0A;line-height:1.35;">Resultados<br>medibles</div>
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:8px;font-weight:600;letter-spacing:2px;color:#BBBBBB;text-transform:uppercase;margin-top:4px;">Con hoja de ruta</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+
+    <!-- ════════════════════════════════
+         QUIÉNES SOMOS
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#FFFFFF;padding:40px 36px 32px;" class="pad-s">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin:0 0 14px 0;">Quiénes somos</p>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:16px;font-weight:300;color:#0A0A0A;line-height:1.75;margin:0 0 10px 0;">
+          <strong style="font-weight:700;">Lina Labs</strong> es un laboratorio creativo multidisciplinario que funciona como tu equipo externo de comunicación: asumimos la dirección, convocamos los creativos que necesitás y ejecutamos con criterio estratégico.
+        </p>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:#555555;line-height:1.75;margin:0;">
+          Diseño gráfico · Producción audiovisual · Desarrollo web · Experiencias inmersivas · 3D · Branding · Impresión. Todo en un solo lugar.
+        </p>
+      </td>
+    </tr>
+
+    <tr><td style="height:1px;background:rgba(0,0,0,0.07);padding:0;font-size:0;"></td></tr>
+
+
+    <!-- ════════════════════════════════
+         SERVICIOS — 2 columnas
+    ════════════════════════════════ -->
+
+    <!-- 01 AGILE MANAGEMENT — borde rojo puro -->
+    <tr>
+      <td style="background:#FFFFFF;padding:0;border-left:3px solid #FF0000;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+          <td class="two-col-l" style="padding:34px 26px;vertical-align:top;width:60%;">
+            <div style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin-bottom:10px;">01</div>
+            <h3 style="font-family:'Montserrat',Arial,sans-serif;font-size:20px;font-weight:900;color:#0A0A0A;margin:0 0 12px 0;">Agile Management</h3>
+            <p style="font-family:'Montserrat',Arial,sans-serif;font-size:13px;color:#555555;line-height:1.8;margin:0 0 16px 0;">Asumimos la dirección operativa de tu comunicación. Nos integramos como tu equipo experto para ejecutar roadmaps estratégicos y devolverte el foco al negocio.</p>
+            <a href="https://linalabs.ar#services" target="_blank" rel="noopener noreferrer" style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#0A0A0A;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.3);padding-bottom:1px;">Ver más →</a>
+          </td>
+          <td class="two-col-r" style="padding:34px 20px;vertical-align:top;background:#FAFAF8;border-left:1px solid rgba(0,0,0,0.06);width:40%;">
+            <div style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#BBBBBB;margin-bottom:12px;">Ideal si…</div>
+            <ul style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;color:#555555;line-height:1.8;margin:0;padding-left:14px;">
+              <li style="margin-bottom:7px;">No tenés tiempo de gestionar creativos</li>
+              <li style="margin-bottom:7px;">Querés comunicar más sin contratar más</li>
+              <li>Necesitás estrategia, no piezas sueltas</li>
+            </ul>
+          </td>
+        </tr></table>
+      </td>
+    </tr>
+    <tr><td style="height:1px;background:rgba(0,0,0,0.06);padding:0;font-size:0;"></td></tr>
+
+    <!-- 02 TANGIBLE INNOVATION — borde verde puro -->
+    <tr>
+      <td style="background:#FFFFFF;padding:0;border-left:3px solid #00CC00;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+          <td class="two-col-l" style="padding:34px 26px;vertical-align:top;width:60%;">
+            <div style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin-bottom:10px;">02</div>
+            <h3 style="font-family:'Montserrat',Arial,sans-serif;font-size:20px;font-weight:900;color:#0A0A0A;margin:0 0 12px 0;">Tangible Innovation</h3>
+            <p style="font-family:'Montserrat',Arial,sans-serif;font-size:13px;color:#555555;line-height:1.8;margin:0 0 16px 0;">IA, impresión 3D, merchandising y cobertura de eventos para llevar tu marca al mundo físico. Los activos táctiles comunican más que cualquier post.</p>
+            <a href="https://linalabs.ar#services" target="_blank" rel="noopener noreferrer" style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#0A0A0A;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.3);padding-bottom:1px;">Ver más →</a>
+          </td>
+          <td class="two-col-r" style="padding:34px 20px;vertical-align:top;background:#FAFAF8;border-left:1px solid rgba(0,0,0,0.06);width:40%;">
+            <div style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#BBBBBB;margin-bottom:12px;">Incluye</div>
+            <ul style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;color:#555555;line-height:1.8;margin:0;padding-left:14px;">
+              <li style="margin-bottom:7px;">Impresión 3D y modelado</li>
+              <li style="margin-bottom:7px;">Merchandising prémium</li>
+              <li style="margin-bottom:7px;">Stands y cartelería</li>
+              <li>Cobertura de eventos</li>
+            </ul>
+          </td>
+        </tr></table>
+      </td>
+    </tr>
+    <tr><td style="height:1px;background:rgba(0,0,0,0.06);padding:0;font-size:0;"></td></tr>
+
+    <!-- 03 BRAND IDENTITY — borde azul puro -->
+    <tr>
+      <td style="background:#FFFFFF;padding:0;border-left:3px solid #0000FF;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+          <td class="two-col-l" style="padding:34px 26px;vertical-align:top;width:60%;">
+            <div style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin-bottom:10px;">03</div>
+            <h3 style="font-family:'Montserrat',Arial,sans-serif;font-size:20px;font-weight:900;color:#0A0A0A;margin:0 0 12px 0;">Brand Identity</h3>
+            <p style="font-family:'Montserrat',Arial,sans-serif;font-size:13px;color:#555555;line-height:1.8;margin:0 0 16px 0;">El branding es un activo financiero. Construimos marcas sólidas que blindan tu reputación y hacen que tu empresa se diferencie antes de abrir la boca.</p>
+            <a href="https://linalabs.ar#services" target="_blank" rel="noopener noreferrer" style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#0A0A0A;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.3);padding-bottom:1px;">Ver más →</a>
+          </td>
+          <td class="two-col-r" style="padding:34px 20px;vertical-align:top;background:#FAFAF8;border-left:1px solid rgba(0,0,0,0.06);width:40%;">
+            <div style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#BBBBBB;margin-bottom:12px;">Incluye</div>
+            <ul style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;color:#555555;line-height:1.8;margin:0;padding-left:14px;">
+              <li style="margin-bottom:7px;">Identidad visual completa</li>
+              <li style="margin-bottom:7px;">Manual de marca</li>
+              <li style="margin-bottom:7px;">Naming y eslogan</li>
+              <li>Comunicación interna + externa</li>
+            </ul>
+          </td>
+        </tr></table>
+      </td>
+    </tr>
+
+    <tr><td style="height:1px;background:rgba(0,0,0,0.07);padding:0;font-size:0;"></td></tr>
+
+
+    <!-- ════════════════════════════════
+         CÓMO FUNCIONA — hoja 5 propuesta
+         BORDE A BORDE: padding 0 en el TD
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#FFFFFF;padding:28px 36px 0;" class="pad-s">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin:0 0 16px 0;">Cómo funciona</p>
+      </td>
+    </tr>
+    <!-- Imagen borde a borde sin padding horizontal -->
+    <tr>
+      <td style="background:#FFFFFF;padding:0;line-height:0;font-size:0;">
+        <a href="https://linalabs.ar/assets/pdfs/propuesta.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="https://linalabs.ar/assets/pdfs/propuesta/propuesta_005.jpg"
+               width="600" alt="Nuestra propuesta — Cómo funciona — Lina Labs"
+               style="display:block;width:100%;max-width:600px;height:auto;image-rendering:-webkit-optimize-contrast;">
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#FFFFFF;padding:10px 36px 28px;text-align:right;">
+        <a href="https://linalabs.ar/assets/pdfs/propuesta.pdf" target="_blank" rel="noopener noreferrer"
+           style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#555555;text-decoration:none;">
+          Ver propuesta completa →
+        </a>
+      </td>
+    </tr>
+
+    <!-- FRANJA RGB #2 — dirección invertida -->
+    <tr>
+      <td style="height:5px;background:linear-gradient(90deg,#0000FF 0%,#00FF00 50%,#FF0000 100%);padding:0;font-size:0;line-height:0;">&nbsp;</td>
+    </tr>
+
+
+    <!-- ════════════════════════════════
+         PORTFOLIO SLIDESHOW
+         Páginas: 3,4,20,27,36,43,51,72
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#111111;padding:24px 36px 16px;">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin:0;">Nuestro trabajo</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#111111;padding:0;line-height:0;font-size:0;">
+
+        <!--[if mso]>
+        <img src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_003.jpg" width="600" alt="Portfolio Lina Labs" style="display:block;width:600px;">
+        <![endif]-->
+        <!--[if !mso]><!-->
+        <div class="pf-wrap" style="position:relative;width:100%;height:400px;overflow:hidden;background:#111;display:block;font-size:0;line-height:0;">
+          <img class="pf-frame pf1" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_003.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+          <img class="pf-frame pf2" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_004.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+          <img class="pf-frame pf3" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_020.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+          <img class="pf-frame pf4" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_027.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+          <img class="pf-frame pf5" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_036.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+          <img class="pf-frame pf6" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_043.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+          <img class="pf-frame pf7" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_051.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+          <img class="pf-frame pf8" src="https://linalabs.ar/assets/pdfs/portfolio/portfolio_072.jpg" width="600" alt="Portfolio" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;">
+        </div>
+        <!--<![endif]-->
+
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#111111;padding:14px 36px 28px;text-align:center;">
+        <a href="https://linalabs.ar#portfolio" target="_blank" rel="noopener noreferrer"
+           style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;">
+          Ver portfolio completo →
+        </a>
+      </td>
+    </tr>
+
+    <tr><td style="height:1px;background:rgba(0,0,0,0.1);padding:0;font-size:0;"></td></tr>
+
+
+    <!-- ════════════════════════════════
+         CAPACIDADES
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#F7F7F5;padding:36px;" class="pad-s">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin:0 0 12px 0;">Todo lo que podemos hacer para vos</p>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9.5px;font-weight:500;color:rgba(0,0,0,0.28);line-height:2.4;letter-spacing:1.5px;text-transform:uppercase;margin:0;word-break:break-word;">
+          PIEZAS DIGITALES · PIEZAS IMPRESAS · MOTION GRAPHICS · PRESENTACIONES · BRANDBOOK · SISTEMA DE IDENTIDAD · CATÁLOGOS · LIBROS · INFOGRAFÍAS · BROCHURE · FOLLETOS · CORREOS · CARTELERÍA · LANZAMIENTOS · CAMPAÑAS · COMMUNITY MANAGER · DISEÑO DE INDUMENTARIA · ILUSTRACIONES · DISEÑO 3D Y RENDERS · FOTOGRAFÍA Y VIDEO · ETIQUETAS · PACKAGING · AFICHES · MERCHANDISING · KITS DE REDES SOCIALES · PERSONAJES · EXPLAINER VIDEOS · ANIMACIÓN 3D · SPOT PUBLICITARIO · COBERTURA DE EVENTOS · IMPRESIÓN 3D · CONSULTORÍA
+        </p>
+      </td>
+    </tr>
+
+    <tr><td style="height:1px;background:rgba(0,0,0,0.07);padding:0;font-size:0;"></td></tr>
+
+
+    <!-- ════════════════════════════════
+         MANIFIESTO
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#FFFFFF;padding:52px 36px;" class="pad-s">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#BBBBBB;margin:0 0 22px 0;">Nuestra filosofía</p>
+        <div class="aberr-big h-big" style="font-family:'Montserrat',Arial,sans-serif;font-size:48px;font-weight:900;line-height:1.0;letter-spacing:-1.3px;color:#0A0A0A;margin:0 0 4px 0;text-shadow:10px -4px 5px rgba(255,0,0,1), 2px 12px 4px rgba(0,255,0,1), 10px 4px 5px rgba(0,0,255,1);">NO DEJES DE</div>
+        <div class="aberr-big h-big" style="font-family:'Montserrat',Arial,sans-serif;font-size:48px;font-weight:900;line-height:1.0;letter-spacing:-1.3px;color:#0A0A0A;margin:0 0 18px 0;text-shadow:10px -4px 5px rgba(255,0,0,1), 2px 12px 4px rgba(0,255,0,1), 10px 4px 5px rgba(0,0,255,1);">COMUNICAR</div>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:15px;font-weight:300;font-style:italic;color:#555555;margin:0 0 14px 0;">Ilumina a tus clientes con tu marca</p>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:400;color:#888888;line-height:1.75;margin:0 0 24px 0;max-width:400px;">
+          Debatimos los proyectos, sumamos ideas y nos involucramos con la empresa y sus necesidades como socios estratégicos.
+        </p>
+        <!-- Logo al final del manifiesto -->
+        <div style="text-align:right;">
+          <img src="https://linalabs.ar/assets/logo-linalabs.png" width="28" height="28" alt="Lina Labs"
+               style="display:inline-block;width:28px;height:28px;object-fit:contain;opacity:0.18;">
+        </div>
+      </td>
+    </tr>
+
+    <tr><td style="height:1px;background:rgba(0,0,0,0.07);padding:0;font-size:0;"></td></tr>
+
+
+    <!-- ════════════════════════════════
+         CTA FINAL
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#0A0A0A;padding:52px 36px;text-align:center;" class="pad-s">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin:0 0 16px 0;">Siguiente paso</p>
+        <h2 class="aberr-big" style="font-family:'Montserrat',Arial,sans-serif;font-size:34px;font-weight:900;letter-spacing:-0.8px;line-height:1.1;color:#FFFFFF;margin:0 0 12px 0;text-shadow:10px -4px 5px rgba(255,0,0,1), 2px 12px 4px rgba(0,255,0,1), 10px 4px 5px rgba(0,0,255,1);">
+          Trabajemos<br>juntos
+        </h2>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.7;margin:0 0 34px 0;">
+          Las consultas son sin cargo.<br>30 minutos para ver si somos el equipo que necesitás.
+        </p>
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:0 auto 24px;">
+          <tr>
+            <td style="padding-right:10px;">
+              <a href="https://linalabs.ar#contact" target="_blank" rel="noopener noreferrer"
+                 style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#0A0A0A;text-decoration:none;display:inline-block;background:#FFFFFF;padding:14px 28px;">
+                Agendar consulta
+              </a>
+            </td>
+            <td>
+              <a href="https://linalabs.ar" target="_blank" rel="noopener noreferrer"
+                 style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);text-decoration:none;display:inline-block;border:1px solid rgba(255,255,255,0.2);padding:13px 28px;">
+                Ver el estudio
+              </a>
+            </td>
+          </tr>
+        </table>
+        <a href="mailto:hello@linalabs.ar"
+           style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.25);text-decoration:none;">
+          hello@linalabs.ar
+        </a>
+      </td>
+    </tr>
+
+
+    <!-- ════════════════════════════════
+         FOOTER
+    ════════════════════════════════ -->
+    <tr>
+      <td style="background:#F0F0EE;padding:24px 36px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td style="vertical-align:middle;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td style="vertical-align:middle;padding-right:8px;">
+                    <img src="https://linalabs.ar/assets/logo-linalabs.png" width="18" height="18" alt="Lina Labs"
+                         style="display:block;width:18px;height:18px;object-fit:contain;">
+                  </td>
+                  <td>
+                    <span class="aberr" style="font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:900;color:#0A0A0A;text-shadow:3px -1px 2px rgba(255,0,0,1), 1px 4px 2px rgba(0,255,0,1), 3px 1px 2px rgba(0,0,255,1);">LINA LABS</span>
+                  </td>
+                </tr>
+              </table>
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;color:#BBBBBB;margin:5px 0 10px 0;">Laboratorio Creativo Multidisciplinario</p>
+              <div>
+                <a href="https://linalabs.ar" target="_blank" rel="noopener noreferrer" style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#AAAAAA;text-decoration:none;margin-right:12px;">Web</a>
+                <a href="https://www.instagram.com/linalabs.ar" target="_blank" rel="noopener noreferrer" style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#AAAAAA;text-decoration:none;margin-right:12px;">Instagram</a>
+                <a href="https://www.linkedin.com/company/linalabs" target="_blank" rel="noopener noreferrer" style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#AAAAAA;text-decoration:none;">LinkedIn</a>
+              </div>
+            </td>
+            <td align="right" style="vertical-align:bottom;" class="hide-mob">
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:300;font-style:italic;color:#CCCCCC;margin:0;text-align:right;line-height:1.6;">
+                Deseamos que encuentres<br>un propósito y un camino.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Legal -->
+    <tr>
+      <td style="background:#F0F0EE;padding:6px 36px 22px;">
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;color:#CCCCCC;line-height:1.7;margin:0 0 5px 0;text-align:center;">
+          COPYRIGHT © 2025 LINA LABS. TODOS LOS DERECHOS RESERVADOS. — hello@linalabs.ar · Argentina
+        </p>
+        <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;color:#CCCCCC;line-height:1.6;margin:0;text-align:center;">
+          Recibió este correo como parte de nuestra presentación de servicios.
+          <a href="https://linalabs.ar/unsubscribe" target="_blank" rel="noopener noreferrer" style="color:#BBBBBB;text-decoration:underline;">Darse de baja</a>
+        </p>
+      </td>
+    </tr>
+
+    <!-- Borde RGB final -->
+    <tr>
+      <td style="height:4px;background:linear-gradient(90deg,#FF0000,#00FF00,#0000FF,#FF0000);padding:0;font-size:0;line-height:0;">&nbsp;</td>
+    </tr>
+
+  </table>
+  </td></tr>
+  </table>
+
+</body>
+</html>

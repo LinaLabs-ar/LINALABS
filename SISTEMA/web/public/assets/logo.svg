@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <circle cx="40" cy="40" r="30" fill="none" stroke="#FF0000" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="40" cy="40" r="20" fill="none" stroke="#00FF00" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="40" cy="40" r="10" fill="none" stroke="#0000FF" stroke-width="1.5" opacity="0.8"/>
+  <text x="40" y="44" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="900" font-size="14" fill="white" letter-spacing="1">L</text>
+</svg>

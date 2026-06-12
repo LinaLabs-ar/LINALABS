@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Lina Labs
+N:;Lina Labs;;;
+item1.EMAIL;TYPE=INTERNET:cliente@linalabs.ar
+item1.X-ABLabel:
+item2.EMAIL;TYPE=INTERNET:hello@linalabs.ar
+item2.X-ABLabel:
+item3.ADR:C1408;;;Ciudad de Buenos Aires;;C1408;AR;C1408\nC1408 Ciudad de B
+ uenos Aires\nAR
+item3.X-ABLabel:
+ORG:Lina Labs
+PHOTO:https://lh3.googleusercontent.com/contacts/AG6tpzF46-3xWyobiwihmMXGiz
+ rhbXEz9LFrjJAp9m1vEOA3HupaUY9W
+CATEGORIES:myContacts
+END:VCARD

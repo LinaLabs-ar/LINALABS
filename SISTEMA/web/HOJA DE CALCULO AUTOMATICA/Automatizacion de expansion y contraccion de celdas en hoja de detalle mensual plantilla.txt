@@ -1,0 +1,228 @@
+/**
+ * @OnlyCurrentDoc
+ * VERSIÓN FINAL v3 - Lógica de limpieza y actualización de fórmulas robusta.
+ */
+
+// --- CONFIGURACIÓN ---
+const CONFIG = {
+  sheetName: "Detalle Mensual - PLANTILLA",
+  dataSourceSheet: "Tarifario Anexo 1",
+  templateRow: 3,
+  headerRows: 2,
+  initialItemRows: 10,
+  bufferRowsToAdd: 3,
+  cols: { id: 1, description: 2, quantity: 3, price: 4, total: 5 },
+  footerText: "TOTAL CONSUMIDO DEL MES:",
+  itemTotalFormula: (row) => `=IF(AND(ISNUMBER(C${row}); ISNUMBER(D${row})); C${row}*D${row}; "")`,
+  footerTotalFormula: (startRow, endRow) => `=SUM(E${startRow}:E${endRow})`,
+  itemRow: {
+    font: 'Montserrat',
+    bgColor: '#b7e1cd',
+    fontWeight: 'normal',
+    colA_size: 12, colA_align: 'left',
+    colB_size: 14, colB_align: 'left',
+    colC_size: 14, colC_align: 'right',
+    colD_size: 12, colD_align: 'right',
+    colE_size: 12,
+  },
+  footer: {
+    font: 'Montserrat',
+    bgColor: '#ffffff',
+    fontWeight: 'bold',
+    text_size: 38,
+    total_size: 21,
+    total_align: 'left',
+  }
+};
+
+// --- FUNCIÓN DE INICIALIZACIÓN (PARA EJECUTAR MANUALMENTE 1 VEZ) ---
+function initializeSheet() {
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.alert('Confirmación', 'Esto reiniciará la hoja. ¿Continuar?', ui.ButtonSet.YES_NO);
+  if (response !== ui.Button.YES) return;
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.sheetName);
+  if (!sheet) return SpreadsheetApp.getActiveSpreadsheet().toast(`Error: No se encontró la hoja "${CONFIG.sheetName}".`);
+  try {
+    sheet.setFrozenRows(0);
+    const maxRows = sheet.getMaxRows();
+    if (maxRows > CONFIG.headerRows) {
+      sheet.deleteRows(CONFIG.headerRows + 1, maxRows - CONFIG.headerRows);
+    }
+    sheet.insertRowsAfter(CONFIG.headerRows, CONFIG.initialItemRows);
+    for (let i = 0; i < CONFIG.initialItemRows; i++) {
+        applyTemplateRowFormatting(sheet, CONFIG.templateRow + i);
+    }
+    const footerPos = CONFIG.templateRow + CONFIG.initialItemRows;
+    sheet.insertRowAfter(footerPos - 1);
+    updateFooter(sheet, footerPos);
+    sheet.setFrozenRows(CONFIG.headerRows);
+    SpreadsheetApp.getActiveSpreadsheet().toast('✅ Plantilla creada con éxito.');
+  } catch (e) {
+    SpreadsheetApp.getActiveSpreadsheet().toast(`Ocurrió un error: ${e.message}`);
+  }
+}
+
+// --- FUNCIÓN DE AUTOMATIZACIÓN (SE EJECUTA SOLA) ---
+function onEdit(e) {
+  const range = e.range;
+  const sheet = range.getSheet();
+  const editedRow = range.getRow();
+  const editedCol = range.getColumn();
+
+  if (sheet.getName() !== CONFIG.sheetName || editedRow <= CONFIG.headerRows) return;
+  
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(15000)) return;
+  
+  try {
+    // Si se edita la Descripción (B)
+    if (editedCol === CONFIG.cols.description) {
+      if (e.value && e.value !== "") {
+        autoPopulateData(range);
+        addBufferIfNeeded(range);
+      } else {
+        cleanupAndCompact();
+      }
+    } 
+    // Si se edita la Cantidad (C)
+    else if (editedCol === CONFIG.cols.quantity) {
+      // Simplemente reaplica el formato y la fórmula para asegurar que el total se calcule
+      applyTemplateRowFormatting(sheet, editedRow);
+    }
+  } catch (err) {
+    Logger.log(`ERROR CRÍTICO en onEdit: ${err.message}\n${err.stack}`);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// --- LÓGICA ESTRUCTURAL ---
+
+function cleanupAndCompact() {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.sheetName);
+    let footerRow = findFooterRow(sheet);
+    if (!footerRow) return;
+
+    // 1. LIMPIEZA PROFUNDA: Revisa todas las filas. Si B está vacía, limpia A, C y D.
+    for (let i = CONFIG.templateRow; i < footerRow; i++) {
+        const descCell = sheet.getRange(i, CONFIG.cols.description);
+        if (descCell.isBlank()) {
+            sheet.getRange(i, CONFIG.cols.id).clearContent();
+            sheet.getRange(i, CONFIG.cols.quantity).clearContent();
+            sheet.getRange(i, CONFIG.cols.price).clearContent();
+        }
+    }
+    
+    // Forzar a la hoja a procesar los cambios
+    SpreadsheetApp.flush();
+
+    // 2. COMPACTACIÓN: Ahora que es seguro, borra las filas 100% vacías.
+    footerRow = findFooterRow(sheet); // Volver a encontrar el footer por si se movió
+    for (let i = footerRow - 1; i >= CONFIG.templateRow; i--) {
+        const rowRange = sheet.getRange(i, 1, 1, CONFIG.cols.total);
+        if (rowRange.isBlank()) {
+            sheet.deleteRow(i);
+        }
+    }
+
+    // 3. ESTADO FINAL: Asegura que haya un buffer y que el footer esté bien.
+    ensureOneBufferRow();
+}
+    
+function ensureOneBufferRow() {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.sheetName);
+    let footerRow = findFooterRow(sheet);
+    if (!footerRow) return;
+    
+    const lastItemRow = footerRow - 1;
+
+    if (lastItemRow < CONFIG.templateRow || sheet.getRange(lastItemRow, CONFIG.cols.description).getValue() !== '') {
+        sheet.insertRowAfter(lastItemRow);
+        applyTemplateRowFormatting(sheet, lastItemRow + 1);
+        updateFooter(sheet, lastItemRow + 2);
+    } else {
+        updateFooter(sheet, footerRow);
+    }
+}
+
+function addBufferIfNeeded(editedRange) {
+  const sheet = editedRange.getSheet();
+  let footerRow = findFooterRow(sheet);
+  if (!footerRow) return;
+
+  const itemValues = sheet.getRange(CONFIG.templateRow, CONFIG.cols.description, footerRow - CONFIG.templateRow, 1).getValues();
+  const hasEmptyCell = itemValues.some(row => row[0] === '');
+  if (hasEmptyCell) return;
+  
+  const lastItemRow = footerRow - 1;
+  sheet.insertRowsAfter(lastItemRow, CONFIG.bufferRowsToAdd);
+  for (let i = 0; i < CONFIG.bufferRowsToAdd; i++) {
+    applyTemplateRowFormatting(sheet, lastItemRow + 1 + i);
+  }
+  updateFooter(sheet, findFooterRow(sheet));
+}
+
+// --- FUNCIONES AUXILIARES ---
+function autoPopulateData(range) {
+  const description = range.getValue();
+  const dataSource = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.dataSourceSheet);
+  if (!dataSource) return;
+  const data = dataSource.getRange('A:E').getValues();
+  for (const rowData of data) {
+    if (rowData[1] && String(rowData[1]).trim() === description.toString().trim()) {
+      const id = rowData[0];
+      const priceRaw = rowData[4]; 
+      let priceNumber = 0;
+      if (priceRaw) {
+        const cleanString = String(priceRaw).replace(/[$.]/g, '').replace(',', '.').trim();
+        priceNumber = parseFloat(cleanString);
+        if (isNaN(priceNumber)) priceNumber = 0;
+      }
+      range.getSheet().getRange(range.getRow(), CONFIG.cols.id).setValue(id);
+      range.getSheet().getRange(range.getRow(), CONFIG.cols.price).setValue(priceNumber);
+      return;
+    }
+  }
+}
+
+function findFooterRow(sheet) {
+  if (!sheet) return null;
+  try {
+    const data = sheet.getRange(1, 1, sheet.getMaxRows(), 1).getValues();
+    for (let i = CONFIG.headerRows; i < data.length; i++) {
+      if (data[i][0] === CONFIG.footerText) return i + 1;
+    }
+  } catch (e) {}
+  return null;
+}
+
+function applyTemplateRowFormatting(sheet, row) {
+    const range = sheet.getRange(`A${row}:E${row}`);
+    range.setBackground(CONFIG.itemRow.bgColor).setFontWeight(CONFIG.itemRow.fontWeight).setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
+    sheet.getRange(row, CONFIG.cols.id).setFontSize(CONFIG.itemRow.colA_size).setHorizontalAlignment(CONFIG.itemRow.colA_align);
+    sheet.getRange(row, CONFIG.cols.description).setFontSize(CONFIG.itemRow.colB_size).setHorizontalAlignment(CONFIG.itemRow.colB_align).setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP);
+    sheet.getRange(row, CONFIG.cols.quantity).setFontSize(CONFIG.itemRow.colC_size).setHorizontalAlignment(CONFIG.itemRow.colC_align);
+    sheet.getRange(row, CONFIG.cols.price).setFontSize(CONFIG.itemRow.colD_size).setHorizontalAlignment(CONFIG.itemRow.colD_align).setNumberFormat("$#,##0.00");
+    sheet.getRange(row, CONFIG.cols.total).setFontSize(CONFIG.itemRow.colE_size).setNumberFormat("$#,##0.00");
+    range.setFontFamily(CONFIG.itemRow.font);
+    sheet.getRange(row, CONFIG.cols.total).setFormula(CONFIG.itemTotalFormula(row));
+    const validationSourceSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.dataSourceSheet);
+    if(validationSourceSheet) {
+        const validationRange = validationSourceSheet.getRange('B:B');
+        const rule = SpreadsheetApp.newDataValidation().requireValueInRange(validationRange).build();
+        sheet.getRange(row, CONFIG.cols.description).setDataValidation(rule);
+    }
+}
+
+function updateFooter(sheet, footerRow) {
+  if (!sheet || !footerRow) return;
+  const lastItemRow = footerRow > CONFIG.templateRow ? footerRow - 1 : CONFIG.templateRow;
+  const footerRange = sheet.getRange(`A${footerRow}:E${footerRow}`);
+  footerRange.clear().setBackground(CONFIG.footer.bgColor).setBorder(null, null, null, null, null, null);
+  sheet.getRange(`A${footerRow}:C${footerRow}`).merge().setValue(CONFIG.footerText)
+    .setFontFamily(CONFIG.footer.font).setFontSize(CONFIG.footer.text_size)
+    .setFontWeight(CONFIG.footer.fontWeight).setHorizontalAlignment('center').setVerticalAlignment('middle');
+  sheet.getRange(footerRow, CONFIG.cols.price).setFormula(CONFIG.footerTotalFormula(CONFIG.templateRow, lastItemRow))
+    .setFontFamily(CONFIG.footer.font).setFontSize(CONFIG.footer.total_size)
+    .setFontWeight(CONFIG.footer.fontWeight).setNumberFormat("$#,##0.00").setHorizontalAlignment(CONFIG.footer.total_align);
+}
