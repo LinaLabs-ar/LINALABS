@@ -13,7 +13,8 @@
 
 ### 2026-06-11 — GitHub Actions + Auto-Deploy Setup ⭐ ÚLTIMA
 
-**[[SESIONES/2026-06-11 - GitHub Actions + Auto-Deploy Final|Ver sesión completa]]**
+**[[SESIONES/2026-06-11 - GitHub Actions + Auto-Deploy Final|Ver sesión completa]]**  
+**[[SESIONES/2026-06-11-RESUMEN-EJECUTIVO|Resumen ejecutivo (2 min)]]**
 
 **Resumen:**
 - ✅ GitHub Actions workflow configurado (auto-deploy)
