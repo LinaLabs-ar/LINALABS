@@ -112,3 +112,5 @@ SISTEMA/token_sheets.json
 SISTEMA/google_credentials.json
 SISTEMA/email_sender/enviados.json
 SISTEMA/email_sender/_fix_paths.py
+
+SISTEMA/email_sender/.env

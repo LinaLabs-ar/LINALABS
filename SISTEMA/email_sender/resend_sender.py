@@ -18,7 +18,18 @@ import gspread
 # ============================================================
 # CONFIGURACION
 # ============================================================
-RESEND_API_KEY  = os.environ.get("RESEND_API_KEY", "re_Zj1fJHYv_6yvijSLGHdffJJZqHtKabFuC")
+# Lee desde env var (GitHub Actions) o desde archivo local .env
+def _leer_api_key():
+    key = os.environ.get("RESEND_API_KEY", "")
+    if not key:
+        env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+        if os.path.exists(env_path):
+            for line in open(env_path, encoding='utf-8'):
+                if line.startswith('RESEND_API_KEY='):
+                    key = line.strip().split('=', 1)[1]
+    return key
+
+RESEND_API_KEY  = _leer_api_key()
 FROM_EMAIL      = "contacto@envios.linalabs.ar"
 FROM_NAME       = "Mario Barbieri | LinaLabs"
 REPLY_TO_EMAIL  = "hello@linalabs.ar"
