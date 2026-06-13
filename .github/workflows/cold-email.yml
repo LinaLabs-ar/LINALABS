@@ -1,0 +1,36 @@
+name: Cold Email Diario
+
+on:
+  schedule:
+    # 9:00 AM Argentina (UTC-3) = 12:00 UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch:  # permite correrlo manualmente desde GitHub
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install gspread google-auth google-auth-oauthlib requests
+
+      - name: Escribir token de Google Sheets
+        run: |
+          echo '${{ secrets.GOOGLE_SHEETS_TOKEN }}' > SISTEMA/token_sheets.json
+        env:
+          GOOGLE_SHEETS_TOKEN: ${{ secrets.GOOGLE_SHEETS_TOKEN }}
+
+      - name: Enviar emails
+        run: python SISTEMA/email_sender/resend_sender.py
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GOOGLE_SHEETS_TOKEN_PATH: SISTEMA/token_sheets.json
