@@ -96,14 +96,16 @@ def get_template(rubro, nombre):
 # ============================================================
 # ENVIO VIA RESEND
 # ============================================================
-def enviar_mail(email, asunto, cuerpo):
-    payload = json.dumps({
+def enviar_mail(email, asunto, cuerpo, reply_to=REPLY_TO_EMAIL):
+    body = {
         "from": f"{FROM_NAME} <{FROM_EMAIL}>",
         "to": [email],
-        "reply_to": REPLY_TO_EMAIL,
         "subject": asunto,
         "html": cuerpo,
-    }).encode('utf-8')
+    }
+    if reply_to:
+        body["reply_to"] = reply_to
+    payload = json.dumps(body).encode('utf-8')
     req = urllib.request.Request("https://api.resend.com/emails", data=payload, method='POST')
     req.add_header('Authorization', f'Bearer {RESEND_API_KEY}')
     req.add_header('Content-Type', 'application/json')
@@ -246,7 +248,7 @@ def main():
         print(f"Enviando resumen a {REPLY_TO_EMAIL}...")
         ok_r, resp_r = enviar_mail(REPLY_TO_EMAIL,
                               f"Campana LinaLabs - {enviados_sesion} mails enviados hoy ({hoy_str})",
-                              resumen_html)
+                              resumen_html, reply_to=None)
         if ok_r:
             print(f"Resumen enviado OK a {REPLY_TO_EMAIL}")
         else:
