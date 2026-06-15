@@ -33,7 +33,7 @@ RESEND_API_KEY  = _leer_api_key()
 FROM_EMAIL      = "contacto@envios.linalabs.ar"
 FROM_NAME       = "Mario Barbieri | LinaLabs"
 REPLY_TO_EMAIL  = "hello@linalabs.ar"
-DAILY_LIMIT     = 10     # subir a 40 despues de 7 dias sin problemas
+DAILY_LIMIT     = 40
 DELAY_SECONDS   = 8
 
 SHEET_ID        = '10H6MHncLWQ8oPS9gSqyBrT3ZhD3sPjRPRzLMfhzftS4'
