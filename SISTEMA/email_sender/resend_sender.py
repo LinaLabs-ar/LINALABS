@@ -155,10 +155,24 @@ def main():
     # Contar enviados hoy (FECHA_ENVIO = hoy)
     enviados_hoy = sum(1 for r in data if len(r) >= COL_FECHA and r[COL_FECHA-1].startswith(hoy))
     total_enviados = sum(1 for r in data if len(r) >= COL_ESTADO and r[COL_ESTADO-1] == 'Enviado')
-    pendientes = [
+    pendientes_raw = [
         (i, r) for i, r in enumerate(data)
         if len(r) < COL_ESTADO or r[COL_ESTADO-1] != 'Enviado'
     ]
+
+    # Intercalar rubros para que cada tanda sea proporcional (no todo el mismo rubro)
+    from collections import defaultdict
+    por_rubro = defaultdict(list)
+    for item in pendientes_raw:
+        rubro = item[1][COL_RUBRO-1].strip() if len(item[1]) >= COL_RUBRO else 'Sin rubro'
+        por_rubro[rubro].append(item)
+    pendientes = []
+    listas = list(por_rubro.values())
+    while any(listas):
+        for lista in listas:
+            if lista:
+                pendientes.append(lista.pop(0))
+        listas = [l for l in listas if l]
 
     quedan_hoy = DAILY_LIMIT - enviados_hoy
 
